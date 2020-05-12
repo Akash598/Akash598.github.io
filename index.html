@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>Portfolio Homepage</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav-wrapper">
+      <div class="left-side">
+        <div class="nav-link-wrapper active-nav-link">
+          <a href="index.html">Home</a>
+        </div>
+
+        <div class="nav-link-wrapper">
+          <a href="about.html">About</a>
+        </div>
+      </div>
+
+      <div class="right-side">
+        <div class="brand">
+          AKASH DEEP
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="portfolio-items-wrapper">
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio1.jpg)"></div>
+
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/quip.png" alt="">
+            </div>
+
+            <a href= "http://www.myjobpreparation.com" style="text-decoration:none;"><div class="subtitle">I built this platform to help people prepare for their jobs.</div> </a>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio2.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/devcamp.png" alt="">
+            </div>
+
+            <a href= "hvac.html" style="text-decoration:none;"><div class="subtitle">This is the project I completed while learning coding </div></a>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio3.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/eventbrite.png" alt="">
+            </div>
+
+            <a href= "https://t.co/5FitN1Mo83?amp=1" style="text-decoration:none;"><div class="subtitle">I have written this book to help teachers implement 21st century teaching methods in classroom</div></a>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio4.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/shop-hacker.png" alt="">
+            </div>
+
+            <div class="subtitle">Volunteer experience as the founding member of Avanti Fellows</div>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio5.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/crondose.png" alt="">
+            </div>
+
+            <div class="subtitle">Consulting assignment with Action Platform to gauge the organizational maturity of Farmer Producer Organizations so that their funding needs can be fullfilled</div>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio6.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/dailysmarty.png" alt="">
+            </div>
+
+            <div class="subtitle">Consulting assignment with National Innovation Foundation (NIF). Conducted feasibility study of NIF incubator</div>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio7.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/dashtrack.png" alt="">
+            </div>
+
+            <a href= "https://medium.com/@adrohilla" style="text-decoration:none;"><div class="subtitle">Articles I have written on Medium</div></a>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio8.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/devtrunk.png" alt="">
+            </div>
+
+            <div class="subtitle">Reliance days as a chemical engineer</div>
+          </div>
+        </div>
+
+        <div class="portfolio-item-wrapper">
+          <div class="portfolio-img-background" style="background-image:url(images/portfolio9.jpg)"></div>
+          <div class="img-text-wrapper">
+            <div class="logo-wrapper">
+              <img src="images/logos/edutechional.png" alt="">
+            </div>
+
+            <div class="subtitle">Collection of Articles, Links, Books I like</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script>
+  const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper');
+
+  portfolioItems.forEach(portfolioItem => {
+    portfolioItem.addEventListener('mouseover', () => {
+      console.log(portfolioItem.childNodes[1].classList)
+      portfolioItem.childNodes[1].classList.add('image-blur');
+    });
+
+    portfolioItem.addEventListener('mouseout', () => {
+      console.log(portfolioItem.childNodes[1].classList)
+      portfolioItem.childNodes[1].classList.remove('image-blur');
+    });
+  });
+
+</script>
+
+</html>

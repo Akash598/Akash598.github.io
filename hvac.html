@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HVAC Parts</title>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD9VjOmZ4QWyAUi1Me3TPoCdp3Om5h5N2Q",
+            authDomain: "hvac-coursera.firebaseapp.com",
+            databaseURL: "https://hvac-coursera.firebaseio.com",
+            projectId: "hvac-coursera",
+            storageBucket: "hvac-coursera.appspot.com",
+            messagingSenderId: "438797956683",
+            appId: "1:438797956683:web:fc05a3c735c6746375bfce",
+            measurementId: "G-5NX59H5013"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+    </script>
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="hvacstyle.css">
+</head>
+
+<body>
+    <div class="top-bar">
+        <button id="home" class="menubut">Home </button>
+        <button id="partsearch" class="menubut">Partsearch </button>
+        <button id="help" class="menubut">Help </button>
+        <button id="login" class="loginbut" onclick="handle_auth()" style="width:auto;">Sign-in </button>
+    </div>
+
+    <div id="search-page">
+        <div id="type-search">
+            <div id="search-box">
+
+                Search
+                <input id="search-part" type="text" name="parts-search"
+                    placeholder="Enter Part Number from {A01,A02,A03,A04}" size=30>
+
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img src="https://freepiktures.com/wp-content/uploads/edd/2019/08/Camera-Icon-PNG-715x544.png"
+                            alt="PCB board" height="25" width="42" style="vertical-align:bottom" />
+                    </label>
+                    <input id="file-input" type="file" />
+                </div>
+
+
+
+            </div>
+        </div>
+        <div id="advance-search">
+            Advance Search
+            <select id="filter-mfr">
+                <option value="All">Manufacturer</option>
+                <option value="Acme">Acme</option>
+                <option value="Bacme">Bacme</option>
+                <option value="Cacme">Cacme</option>
+                <option value="Dacme">Dacme</option>
+            </select>
+            <select id="filter-model">
+                <option value="All">Model</option>
+                <option value="TooCool">TooCool</option>
+                <option value="TooHot">TooHot</option>
+                <option value="JustRight">JustRight</option>
+                <option value="Coolerator">Coolerator</option>
+            </select>
+            <select id="filter-part">
+                <option value="All">Type</option>
+                <option value="Sniggler">Sniggler</option>
+                <option value="Wiggler">Wiggler</option>
+                <option value="Jiggler">Jiggler</option>
+                <option value="Tiggler">Tiggler</option>
+            </select>
+        </div>
+
+        <button id="submit-btn" class="button">Submit </button>
+
+    </div>
+
+    <div id="home-page">
+        <p>
+            This is the Home Page of the company. Apparently this is not part of the prototype. Click on part search to
+            see
+            the relevant pages
+        </p>
+    </div>
+
+    <div id="help-page">
+        <p>
+            This is the Help Page . Apparently this is not part of the prototype. Click on part search to see the
+            relevant
+            pages
+        </p>
+    </div>
+
+    <div id="result-page">
+
+        <div id="search-result">
+            <div id="search-box1">
+                yes
+            </div>
+
+        </div>
+
+        <div id="result-filter">
+            <a id="sortby">Sort By</a>
+            <select>
+                <option value="None">Default</option>
+                <option value="Price">Price</option>
+                <option value="Time to Deliver">Time to Deliver</option>
+                <option value="Popularity">Popularity</option>
+            </select>
+            <div id="result-summary"> </div>
+            <button id="search-again">Search again </button>
+        </div>
+
+        <div class="parts-display" id="result-display">
+
+            <div id="parts-content">
+            </div>
+            <!-- code for the passowrd reset 
+
+     <div class="catalog-part" mfr="Bacme" model="Toohot" number="A01" part="Wiggler">
+       <img class="part" src="https://www.alexandercowan.com/wp-content/uploads/2017/12/PCB-board-150px.png" alt="PCB board">
+     </div>
+
+     <div class="catalog-part" mfr="Dacme" model="JustRight" number="A02" part="Jiggler">
+       <img class="part" src="https://www.alexandercowan.com/wp-content/uploads/2017/12/hvac-fan-photo-2-post-150px.png" alt="PCB board">
+     </div>
+
+     <div class="catalog-part" mfr="Acme" model="Toocool" number="A03" part="Tiggler">
+       <img class="part" src="https://www.alexandercowan.com/wp-content/uploads/2017/12/hvac-board-4-post-150px.png" alt="PCB board 2">
+     </div>
+
+     <div class="catalog-part" mfr="Acme" model="Coolerator" number="A04" part="Sniggler">
+       <img class="part" src="https://www.alexandercowan.com/wp-content/uploads/2017/12/hvac-metal-part-post-150px.png" alt="PCB board">
+
+     </div>
+-->
+        </div>
+
+    </div>
+
+
+
+    <!-- code for the pop up form which comes after clicking on the login button in the top bar -->
+
+    <div id="id01" class="modal">
+        <form id="login-form" class="modal-content animate" onsubmit="return false">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                    title="Close Modal">&times;</span>
+                <img src="https://st3.depositphotos.com/1334497/18857/v/450/depositphotos_188570644-stock-illustration-vector-avatar-builder.jpg"
+                    alt="Avatar" class="avatar">
+            </div>
+            <div class="container">
+                <label for="uname"><b>Email</b></label>
+                <input id="login_email" class="logintext" type="email" placeholder="Enter Email" name="uname" required>
+                <label for="psw"><b>Password</b></label>
+                <input id="login_pwd" class="logintext" type="password" placeholder="Enter Password" name="psw"
+                    required>
+                <button id="ulogin" class="loginbuttons" type="submit">Login</button>
+                <label>
+                    <text
+                        onclick="document.getElementById('id02').style.display='block'; document.getElementById('id01').style.display='none'">
+                        <b>Register </b></text>
+                </label>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                    class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a
+                        onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none'"
+                        href="#">password?</a></span>
+            </div>
+        </form>
+    </div>
+
+    <!-- code for the registration form -->
+    <div id="id02" class="modal">
+        <form id="register-form" class="modal-content animate" onsubmit="return false">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                    title="Close Modal">&times;</span>
+                <img src="https://st3.depositphotos.com/1334497/18857/v/450/depositphotos_188570644-stock-illustration-vector-avatar-builder.jpg"
+                    alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label for="uname"><b>Email</b></label>
+                <input id="register_email" class="logintext" type="email" placeholder="Enter Email" name="uname"
+                    required>
+                <label for="retype"><b>Re-enter Email</b></label>
+                <input id="retype_email" class="logintext" type="email" placeholder="Re-Enter Email" name="retype"
+                    required>
+                <label for="psw"><b>Password</b></label>
+                <input id="register_pwd" class="logintext" type="password" placeholder="Enter Password" name="psw"
+                    required>
+                <button id="uregister" class="loginbuttons" type="submit">Register</button>
+            </div>
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id02').style.display='none'"
+                    class="cancelbtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- code for the passowrd reset -->
+
+    <div id="id03" class="modal">
+        <form id="pwd-reset-form" class="modal-content animate" onsubmit="return false">
+
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                    title="Close Modal">&times;</span>
+                <img src="https://st3.depositphotos.com/1334497/18857/v/450/depositphotos_188570644-stock-illustration-vector-avatar-builder.jpg"
+                    alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label for="uname"><b>Email</b></label>
+                <input id="reset_email" class="logintext" type="email" placeholder="Enter Email" name="uname" required>
+                <button id="pwd-reset-but" class="loginbuttons" type="submit">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+
+        $("#search-page").hide(); //default view after clicking on run
+        $("#result-page").hide();
+        $("#home-page").show();
+        $("#help-page").hide();
+
+        $("#home").click(function () { //what happens when you click on Home in the topbar
+            $("#search-page").hide();
+            $("#result-page").hide();
+            $("#home-page").show();
+            $("#help-page").hide();
+        });
+        $("#partsearch").click(function () { //screen to show after clicking partsearch
+            $("#search-page").show();
+            $("#result-page").hide();
+            $("#home-page").hide();
+            $("#help-page").hide();
+        });
+        $("#help").click(function () { //screen to show after clicking on help in topbar
+            $("#search-page").hide();
+            $("#result-page").hide();
+            $("#home-page").hide();
+            $("#help-page").show();
+        });
+
+//Link to the example sheet is here: https://docs.google.com/spreadsheets/d/1vhxAiBER8aFJg7MpNnANoLvXq4ETOQQ_qYIf1FFhWEU/edit#gid=0
+            //Sheet id is: 1vhxAiBER8aFJg7MpNnANoLvXq4ETOQQ_qYIf1FFhWEU
+
+            var url = "https://spreadsheets.google.com/feeds/list/1vhxAiBER8aFJg7MpNnANoLvXq4ETOQQ_qYIf1FFhWEU/1/public/values?alt\u003djson";
+
+            $.getJSON(url, function (data) {
+                var output = "";
+                $.each(data.feed.entry, function (index, value) {
+                    var $partsDiv = $("<div/>");
+                    $partsDiv.addClass('catalog-part');
+                    $partsDiv.attr({
+                        'number': value.gsx$partnumber.$t,
+                        'Image_URL': value.gsx$imageurl.$t,
+                        'mfr': value.gsx$manufacturer.$t,
+                        'model': value.gsx$model.$t,
+                        'part': value.gsx$type.$t,
+                        'Price': value.gsx$price.$t,
+                        'Availability': value.gsx$availability.$t,
+                        'Orders_T30_Days': value.gsx$orderst30days.$t
+                    });
+
+                    var imgurl = value.gsx$imageurl.$t;
+                    var img = $('<img />').attr({
+                        'src': (imgurl)
+                    })
+
+                    $partsDiv.prepend(img);
+                    // $('#parts-content').prepend(output);
+                    $('#parts-content').append($partsDiv);
+                });
+            });
+            
+        $("#submit-btn").click(function () { //clicking on submit button
+                $("#search-page").hide();
+                $("#result-page").show();
+                $("#home-page").hide();
+                $("#help-page").hide();
+
+                $('.catalog-part').show();
+                resultcount = 0;
+                console.log(resultcount);
+
+                if ($("#search-part").val().length > 0) { //if text is entered in the textbox
+                    console.log("search text when something is entered" + $("#search-part").val())
+                    var querytext = $("#search-part").val()
+                    $('.catalog-part').each(function () {
+                        if ($(this).attr('number') != querytext) {
+                            $(this).hide();
+                        }
+                    })
+
+                    $("#search-box1").text("Showing result for: \"" + querytext + "\"");
+                }
+
+                if ($("#search-part").val().length == 0) { // this is to check if user has entered anything in the search box, if they have entered something then that text would be searched first on clicking submit button.
+                    console.log("search text when nothing entered" + $("#search-part").val()) // just for testing
+
+                    var selmfr = $('#filter-mfr').find(':selected').val(); //JQuery event for drop-down
+                    console.log("selected mfr " + selmfr); //just for testing
+
+                    if (selmfr != "All") {
+                        $('.catalog-part').each(function () { //.each lets you do something to all items in the selected class
+                            if ($(this).attr('mfr') != selmfr) {
+                                $(this).hide();
+                            } //inner if statement ends here
+                        });
+                    } //outer if statement
+
+                    var selmodel = $('#filter-model').find(':selected').val(); //JQuery event for drop-down
+                    console.log("selected model " + selmodel); //just for testing
+
+                    if (selmodel != "All") {
+                        $('.catalog-part').each(function () { //.each lets you do something to all items in the selected class
+                            if ($(this).attr('model') != selmodel) {
+                                $(this).hide();
+                            } //inner if statement ends here
+                        });
+                    } //outer if statement
+
+                    var selpart = $('#filter-part').find(':selected').val(); //JQuery event for drop-down
+                    console.log("selected part " + selpart); //just for testing
+
+                    if (selpart != "All") {
+                        $('.catalog-part').each(function () { //.each lets you do something to all items in the selected class
+                            if ($(this).attr('part') != selpart) {
+                                $(this).hide();
+                            } //inner if statement ends here
+                        });
+                    } //outer if statement
+
+                    $("#search-box1").text("Selected Parameters: " + "  Manufacturer: " + selmfr + ", Model: " + selmodel + ", Type:  " + selpart);
+
+                }
+
+                $(".catalog-part:visible").each(function () { // to calculate the result count after search
+                    resultcount = resultcount + 1
+                });
+
+                console.log("final result count" + resultcount);
+
+                $("#result-summary").text(resultcount + " result"); // to display the count of results.
+            });
+
+
+        $("#search-again").click(function () { //settings for search again function.
+                $("#search-page").show();
+                $("#result-page").hide();
+                $("#home-page").hide();
+                $("#help-page").hide();
+
+                $('#filter-part').val('All');
+                $('#filter-model').val('All');
+                $('#filter-mfr').val('All');
+                $('#search-part').val('');
+
+            });
+        //code for login form 
+
+        // Get the modal
+
+        var modal = document.getElementById('id01');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        //code for registering and logging in users after entering details in the register and login form 
+
+
+        $('#register-form').submit(function () {
+            alert("submit on register done");
+            // pass the login email and pwd to our login handler function (below)
+            register_user($('#register_email').val(), $('#retype_email').val(), $('#register_pwd').val());
+        });
+
+        $('#login-form').submit(function () {
+            alert("submit on login done");
+            // pass the login email and pwd to our login handler function (below)
+            login_user($('#login_email').val(), $('#login_pwd').val());
+        });
+
+        function register_user(email, remail, pwd) {
+            if (email !== remail) {
+                alert("emails dont match");
+            } else {
+                alert("register user function called for  " + email);
+
+                // use the Firebase API to register the user
+                firebase.auth().createUserWithEmailAndPassword(email, pwd).then(function (user) {
+                    if (user) {
+                        //clear the form
+                        alert("user registered with email" + email);
+                        $("#register-form input[type=email], input[type=password]").val('');
+                        $("#id02").css("display", "none");
+                    }
+                }, function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log("oh my: " + errorMessage);
+                    alert(errorMessage);
+                    $("#register-form input[type=email], input[type=password]").val('');
+                });
+            }
+        }
+
+        function login_user(email, pwd) {
+            alert("login user function called for  " + email);
+
+            // use the Firebase API to sign in the user
+            firebase.auth().signInWithEmailAndPassword(email, pwd).then(function (user) {
+                if (user) {
+                    //clear the form
+                    $("#login-form input[type=email], input[type=password]").val('');
+                    $("#login").text("Sign-Out");
+                    $("#id01").css("display", "none");
+                    alert("user logged in with email" + email);
+                }
+            }, function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log("oh my: " + errorMessage);
+                alert("Reminder: This is a stand-alone system you need to register for separately (sorry for the nuisance!). " + errorMessage);
+            });
+        }
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                alert("session for user " + user.email);
+                $("#login").text("Sign-Out");
+            } else {
+                alert("there is no user");
+                $("#login").text("Sign-In");
+                // No user is signed in.
+            }
+        });
+
+        //handling authorization on the fucntions
+        function handle_auth() {
+            console.log("handle_auth function is called ");
+            var user = firebase.auth().currentUser;
+            console.log("user is " + user);
+            if (!user) {
+
+                $("#id01").css("display", "block");
+
+            } else {
+                // Sign out the current user
+                firebase.auth().signOut().then(function () {
+                    // Sign-out successful.
+                    console.log("Signed out " + user.email)
+                }).catch(function (error) {
+                    // An error happened.
+                    alert("Something went wrong.");
+                });
+                $("#login").text("Sign-In");
+            }
+        }
+
+        //Reset Password
+
+        $('#pwd-reset-form').submit(function () {
+            recover_password($('#reset_email').val());
+        })
+
+        function recover_password(email) {
+            console.log("sending recovery to " + email);
+            firebase.auth().sendPasswordResetEmail(email).then(function () {
+                //Email sent, give an alert with a prompt for further action
+                alert("sending recovery to " + email + "check your email account for further instructions");
+                $("#pwd-reset-form input[type=email]").val('');
+                $("#id03").css("display", "none");
+            }).catch(function (error) {
+                //An error happened...display the error so the User knows what's going wrong
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log("oh my: " + errorMessage);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
