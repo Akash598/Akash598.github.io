@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <!--<title>Portfolio Homepage</title>-->
+  <title>Temp Bot Testing</title>
+  <link rel="shortcut icon" href="images/lightbulb.png" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+  <div class="topnav">
+    <a class="active" href="index.html">Customer Support Chat</a>
+    <a href="onboarding.html">Onboarding Chat</a>
+    <a href="salesleads.html">Sales Leads</a>
+  </div>
+
+  <h1>Customer Support Bot </h1>
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/20439476.js"></script>
+<!-- End of HubSpot Embed Code -->
+
+</body>
+
+<script>
+  const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper');
+
+  portfolioItems.forEach(portfolioItem => {
+    portfolioItem.addEventListener('mouseover', () => {
+      console.log(portfolioItem.childNodes[1].classList)
+      portfolioItem.childNodes[1].classList.add('image-blur');
+    });
+
+    portfolioItem.addEventListener('mouseout', () => {
+      console.log(portfolioItem.childNodes[1].classList)
+      portfolioItem.childNodes[1].classList.remove('image-blur');
+    });
+  });
+
+</script>
+
+</html>
