@@ -63,41 +63,68 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Function to create resulting table on a new page
-  function createResultTable(data) {
-    const keys = Object.keys(data[0]); // Extract keys from the first item
+  // function createResultTable(data) {
+  //   const keys = Object.keys(data[0]); // Extract keys from the first item
 
-    const resultHtml = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Filtered Results</title>
-        <link rel="stylesheet" href="styles.css">
-      </head>
-      <body>
-        <div id="table-container">
-          <table id="data-table">
-            <thead id="table-head">
-              <tr>
-                ${keys.map(key => `<th>${key}</th>`).join('')} <!-- Dynamic headers -->
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              ${data.map(item => `
-                <tr>
-                  ${keys.map(key => `<td>${item[key]}</td>`).join('')} <!-- Dynamic cells -->
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </body>
-      </html>
-    `;
+  //   const resultHtml = `
+  //     <!DOCTYPE html>
+  //     <html lang="en">
+  //     <head>
+  //       <meta charset="UTF-8">
+  //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  //       <title>Filtered Results</title>
+  //       <link rel="stylesheet" href="styles.css">
+  //     </head>
+  //     <body>
+  //       <div id="table-container">
+  //         <table id="data-table">
+  //           <thead id="table-head">
+  //             <tr>
+  //               ${keys.map(key => `<th>${key}</th>`).join('')} <!-- Dynamic headers -->
+  //             </tr>
+  //           </thead>
+  //           <tbody id="table-body">
+  //             ${data.map(item => `
+  //               <tr>
+  //                 ${keys.map(key => `<td>${item[key]}</td>`).join('')} <!-- Dynamic cells -->
+  //               </tr>
+  //             `).join('')}
+  //           </tbody>
+  //         </table>
+  //       </div>
+  //     </body>
+  //     </html>
+  //   `;
 
-    // Open the resulting table in a new window
-    const resultWindow = window.open('', '_blank');
-    resultWindow.document.write(resultHtml);
-  }
+  //   // Open the resulting table in a new window
+  //   const resultWindow = window.open('', '_blank');
+  //   resultWindow.document.write(resultHtml);
+  // }
+  // Function to create resulting table on the same page
+function createResultTable(data) {
+  const keys = Object.keys(data[0]); // Extract keys from the first item
+
+  const resultHtml = `
+    <div id="table-container">
+      <table id="data-table">
+        <thead id="table-head">
+          <tr>
+            ${keys.map(key => `<th>${key}</th>`).join('')} <!-- Dynamic headers -->
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          ${data.map(item => `
+            <tr>
+              ${keys.map(key => `<td>${item[key]}</td>`).join('')} <!-- Dynamic cells -->
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // Replace the current page's content with the resulting table
+  document.body.innerHTML = resultHtml;
+}
+
 });
